@@ -20,7 +20,11 @@ def ocr():
         return jsonify({"error": "No image provided"}), 400
 
     image = Image.open(request.files['image'].stream)
-    text = pytesseract.image_to_string(image)
+    custom_config = r"--psm 11 --oem 3 -c tessedit_char_whitelist=0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+-=*/^_(),.[]{}<>!@#$%&\'\"':;|\\? -l equ+eng"
+
+
+
+    text = pytesseract.image_to_string(image, config=custom_config)
 
     return jsonify({"text": text})
 
